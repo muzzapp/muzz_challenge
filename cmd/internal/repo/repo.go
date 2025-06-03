@@ -2,14 +2,18 @@ package repo
 
 import (
 	"fmt"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"muzz_challenge/cmd/internal/types"
 )
 
 type Repo struct {
+	ddb *dynamodb.Client
 }
 
-func New() *Repo {
-	return &Repo{}
+func New(ddb *dynamodb.Client) *Repo {
+	return &Repo{
+		ddb: ddb,
+	}
 }
 
 func (r *Repo) ListLikedYou(userId string, pageSize int, paginationToken *string) ([]*types.User, *string, error) {

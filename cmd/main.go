@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	awsconfig "github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"log"
@@ -18,7 +20,14 @@ func main() {
 	grpcServer := grpc.NewServer()
 
 	// TODO - update the init func
-	r := repo.New()
+	awsCfg, err := awsconfig.LoadDefaultConfig(context.Background())
+	if err != nil {
+		log.Fatalf("Failed to load AWS config: %v", err)
+	}
+
+	client := dynamodb.NewFromConfig(awsCfg)
+
+	r := repo.New(client)
 	explore.RegisterExploreServiceServer(
 		grpcServer,
 		server.New(r),
