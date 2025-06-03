@@ -1,0 +1,11 @@
+services:
+  dynamodb:
+    image: amazon/dynamodb-local
+    container_name: dynamodb_challenge
+    restart: always
+    ports:
+      - "8001:8000"
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    volumes:
+      - ./docker/data/dynamodb:/home/dynamodblocal/data
+    working_dir: /home/dynamodblocal
