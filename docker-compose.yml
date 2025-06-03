@@ -1,0 +1,19 @@
+services:
+  mysql:
+    image: mariadb:10.5
+    container_name: mysql_challenge
+    environment:
+      MYSQL_DATABASE: explore
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: root
+    restart: always
+    ports:
+      - "33062:3306"
+    volumes:
+      - mysql:/var/lib/mysql
+      - ./docker/mysql/api.cnf:/etc/mysql/conf.d/api.cnf
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  mysql:
