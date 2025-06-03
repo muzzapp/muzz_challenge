@@ -1,15 +1,19 @@
 package repo
 
 import (
+	"database/sql"
 	"fmt"
 	"muzz_challenge/cmd/internal/types"
 )
 
 type Repo struct {
+	db *sql.DB
 }
 
-func New() *Repo {
-	return &Repo{}
+func New(db *sql.DB) *Repo {
+	return &Repo{
+		db: db,
+	}
 }
 
 func (r *Repo) ListLikedYou(userId string, pageSize int, paginationToken *string) ([]*types.User, *string, error) {
